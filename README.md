@@ -1,6 +1,6 @@
 # Présentation de la conception
 Commençons par une conception simple sans aucune logique de tarification complexe:
-![domain]()
+![domain](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/domain.PNG)
 
 L'étape suivante consiste à concevoir une logique plus complexe qui nous permet de sélectionner un algorithme ou une stratégie pour calculer le prix total au moment de l'exécution: <a href='https://en.wikipedia.org/wiki/Strategy_pattern'>Strategy pattern</a>. Au lieu d'implémenter directement une seule stratégie, comme ce que nous avons fait dans l'approche précédente, le code reçoit des instructions d'exécution indiquant laquelle dans une famille de stratégies à utiliser.
 
@@ -8,19 +8,19 @@ Consdier une stratégie simple qui gère la <a href='https://en.wikipedia.org/wi
 
 Comme le comportement de la tarification varie en fonction de différentes stratégies, nous créons deux classes PricingStrategy pour calculer le prix total en fonction de deux stratégies: régulière et volume.
 
-![strategy]()
+![strategy](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/strategy.PNG)
 
 Observez que les classes PricingStrategy implémentent l' interface IPricingStrategy avec une méthode GetTotal polymorphe. Dans cette méthode, nous transmettons l'objet OrderItem en tant que paramètre, afin que l'objet de stratégie puisse calculer le prix normal (pré-remise) et la remise sur volume en fonction du nombre d'articles.
 
 Jetons un œil au diagramme de séquence:
 
-![collaboration]()
+![collaboration](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/collaboration.PNG)
 
 Le diagramme de séquence UML montre l'interaction d'exécution: Le contexte est OrderItem qui délègue le calcul du prix à un objet de stratégie.
 
 Jetez maintenant un œil à l'objet de contexte: OrderItem. Il ne met pas en œuvre la stratégie directement. Au lieu de cela, il fait référence à l' interface IPricingStrategy pour effectuer le calcul du prix total, ce qui rend OrderItem indépendant de la façon dont la stratégie est mise en œuvre.
 
-![orderitem]()
+![orderitem](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/orderitem.PNG)
 
 Il existe différents algorithmes ou stratégies de tarification, et ils changent avec le temps. Qui devrait créer la stratégie? Une approche simple consiste à appliquer le <a href='https://en.wikipedia.org/wiki/Factory_method_pattern'>Factory pattern</a>: un PricingStrategyFactory peut être responsable de la création de toutes les stratégies nécessaires à l'application. PricingStrategyFactory est également responsable de la lecture des règles de tarification à partir du magasin de données, car il crée la stratégie de tarification.
 
@@ -28,7 +28,7 @@ Pour soulever encore une autre exigence intéressante et un problème de concept
 
 Par exemple, une nouvelle classe appelée CompositeLowestPricingStrategy peut implémenter IPricingStrategy et contient elle-même d'autres objets PricingStrategy. Il s'agit d'une caractéristique de signature d'un objet composite: l'objet composite externe contient une liste d'objets internes, et les objets externe et interne implémentent la même interface. Autrement dit, la classe composite elle-même implémente l' interface IPricingStrategy .
 
-![composite]()
+![composite](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/composite.PNG)
 
 # Refactoring
 
@@ -78,4 +78,4 @@ En rendant la méthode GetTotal dans NormalPricingStrategy virtuelle et en héri
 	}
 ```
 
-![final]()
+![final](https://github.com/youssefbellarbia/supermarket-pricing/blob/main/img/final.PNG)
